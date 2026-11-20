@@ -1,0 +1,44 @@
+services:
+  app:
+    build: .
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+      LLM_PROVIDER: ${LLM_PROVIDER:-deepseek}
+      DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:?在项目根目录的 .env 配置 DEEPSEEK_API_KEY}
+      AGENT_MODEL: ${AGENT_MODEL:-deepseek-flash}
+      N8N_DEMO_URL: http://n8n:5678
+    volumes:
+      - forwarder-data:/app/backend/var
+
+  n8n:
+    profiles: ["automation"]
+    image: docker.n8n.io/n8nio/n8n:2.48.6
+    ports:
+      - "127.0.0.1:5678:5678"
+    environment:
+      N8N_DIAGNOSTICS_ENABLED: "false"
+      N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: "true"
+      N8N_SECURE_COOKIE: "false"
+      N8N_HOST: n8n
+      N8N_EDITOR_BASE_URL: http://127.0.0.1:5678
+      N8N_WEBHOOK_URL: http://n8n:5678/
+      WEBHOOK_URL: http://n8n:5678/
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        set -eu
+        if [ ! -f /home/node/.n8n/forwarder-imported ]; then
+          sed 's|http://127.0.0.1:8000/api/automation/|http://app:8000/api/automation/|g' /workflow/forwarder-mail.json > /tmp/forwarder-mail.json
+          n8n import:workflow --input=/tmp/forwarder-mail.json
+          n8n publish:workflow --id=ForwarderMailP6X
+          touch /home/node/.n8n/forwarder-imported
+        fi
+        exec n8n start
+    volumes:
+      - n8n-data:/home/node/.n8n
+      - ./workflows/forwarder-mail.json:/workflow/forwarder-mail.json:ro
+
+volumes:
+  forwarder-data:
+  n8n-data:

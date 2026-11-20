@@ -1,0 +1,47 @@
+---
+config:
+  flowchart:
+    nodeSpacing: 28
+    rankSpacing: 34
+    curve: linear
+  theme: neutral
+---
+flowchart TB
+    UI["React<br/>客户窗口 · 员工工作台 · 业务页面"]
+    MAIL["n8n 测试邮件<br/>Webhook · Wait · 模拟回信"]
+    API["FastAPI<br/>REST 请求 · SSE 事件"]
+    INBOX["TicketService<br/>归并会话 · 组装上下文"]
+    RUN["AgentRunner<br/>模型调用与工具执行循环"]
+    MODEL["DeepSeek API<br/>回复与工具调用"]
+    EVAL["独立评测 Harness<br/>对照批次 · 评分 · 回放"]
+    TOOLS["ToolRegistry<br/>参数校验 · 归属检查 · 读写分类"]
+    LOGISTICS["物流、仓库、清关<br/>报价、改派与理赔"]
+    RAG["中韩双语 RAG<br/>BM25 · E5 · 章节引用"]
+    DOC["单据核对<br/>PDF / OCR · 字段比对"]
+    GATE["人工确认<br/>员工确认 · 经理审批"]
+    STORE[("SQLite 与业务视图<br/>工单 · 执行事件 · 业务变更")]
+
+    UI <--> API
+    MAIL <-->|登记与恢复| API
+    API --> INBOX
+    API --> DOC
+    INBOX --> RUN
+    EVAL -.->|同一工单链路| INBOX
+    RUN <--> MODEL
+    RUN <--> TOOLS
+    TOOLS --> RAG
+    TOOLS --> LOGISTICS
+    TOOLS -->|写入类调用| GATE
+    DOC -->|处理草稿| GATE
+    LOGISTICS -->|查询状态| STORE
+    RUN -.->|工单与工具事件| STORE
+    GATE -->|提交变更| STORE
+
+    classDef entry fill:#e9f6f2,stroke:#488b79,color:#173a33
+    classDef runtime fill:#e8f1fb,stroke:#5383b2,color:#183451
+    classDef human fill:#fff1d9,stroke:#b98438,color:#624114
+    classDef external fill:#f2ecfa,stroke:#8971a8,color:#413256
+    class UI entry
+    class API,INBOX,RUN,TOOLS,LOGISTICS,RAG,DOC,STORE runtime
+    class GATE human
+    class MAIL,MODEL,EVAL external

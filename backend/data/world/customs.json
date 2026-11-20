@@ -1,0 +1,64 @@
+[
+  {
+    "hbl": "FWQD2611043",
+    "cargo_no": "26FWQD1104-0043",
+    "arrival_customs": "인천세관",
+    "bonded_warehouse": "인천 보세창고",
+    "clearance_type": "목록통관",
+    "steps": [
+      {"key": "arrival_report", "label_ko": "입항보고", "label_zh": "入港申报", "status": "done", "at": "2026-11-16T08:20:00+09:00"},
+      {"key": "unloading_accepted", "label_ko": "하선신고 수리", "label_zh": "卸船申报受理", "status": "done", "at": "2026-11-16T13:05:00+09:00"},
+      {"key": "bonded_in", "label_ko": "반입신고", "label_zh": "监管仓入库申报", "status": "done", "at": "2026-11-16T18:40:00+09:00"},
+      {"key": "import_declared", "label_ko": "수입신고", "label_zh": "进口申报", "status": "pending", "at": null},
+      {"key": "import_accepted", "label_ko": "수입신고 수리", "label_zh": "进口申报受理", "status": "pending", "at": null},
+      {"key": "bonded_out", "label_ko": "반출신고", "label_zh": "监管仓出库申报", "status": "pending", "at": null}
+    ],
+    "hold": {
+      "code": "pccc_mismatch",
+      "since": "2026-11-17T09:10:00+09:00",
+      "status": "open",
+      "reason_ko": "신고된 개인통관고유부호가 수하인 성명과 일치하지 않아 통관이 보류되었습니다.",
+      "reason_zh": "申报的个人通关号码与收货人姓名不一致，通关被暂扣。",
+      "required_action": "请收货人提供本人名下正确的个人通关号码（格式为 P 加 12 位数字），由报关行更正后重新提交"
+    }
+  },
+  {
+    "hbl": "FWQD2611150",
+    "cargo_no": "26FWQD1104-0150",
+    "arrival_customs": "인천세관",
+    "bonded_warehouse": "인천 보세창고",
+    "clearance_type": "목록통관",
+    "steps": [
+      {"key": "arrival_report", "label_ko": "입항보고", "label_zh": "入港申报", "status": "done", "at": "2026-11-16T08:20:00+09:00"},
+      {"key": "unloading_accepted", "label_ko": "하선신고 수리", "label_zh": "卸船申报受理", "status": "done", "at": "2026-11-16T13:05:00+09:00"},
+      {"key": "bonded_in", "label_ko": "반입신고", "label_zh": "监管仓入库申报", "status": "done", "at": "2026-11-16T18:52:00+09:00"},
+      {"key": "import_declared", "label_ko": "수입신고", "label_zh": "进口申报", "status": "pending", "at": null},
+      {"key": "import_accepted", "label_ko": "수입신고 수리", "label_zh": "进口申报受理", "status": "pending", "at": null},
+      {"key": "bonded_out", "label_ko": "반출신고", "label_zh": "监管仓出库申报", "status": "pending", "at": null}
+    ],
+    "hold": {
+      "code": "inspection",
+      "since": "2026-11-17T10:30:00+09:00",
+      "status": "open",
+      "reason_ko": "세관 검사 대상으로 선별되어 현품 검사를 진행하고 있습니다.",
+      "reason_zh": "包裹被海关抽中查验，正在进行实物检查。",
+      "required_action": "等待海关查验结果，无需客户操作"
+    }
+  },
+  {
+    "hbl": "FWQD2611127",
+    "cargo_no": "26FWQD1102-0127",
+    "arrival_customs": "인천세관",
+    "bonded_warehouse": "인천 보세창고",
+    "clearance_type": "일반수입신고",
+    "steps": [
+      {"key": "arrival_report", "label_ko": "입항보고", "label_zh": "入港申报", "status": "done", "at": "2026-11-10T08:20:00+09:00"},
+      {"key": "unloading_accepted", "label_ko": "하선신고 수리", "label_zh": "卸船申报受理", "status": "done", "at": "2026-11-10T12:50:00+09:00"},
+      {"key": "bonded_in", "label_ko": "반입신고", "label_zh": "监管仓入库申报", "status": "done", "at": "2026-11-10T19:05:00+09:00"},
+      {"key": "import_declared", "label_ko": "수입신고", "label_zh": "进口申报", "status": "done", "at": "2026-11-11T10:20:00+09:00"},
+      {"key": "import_accepted", "label_ko": "수입신고 수리", "label_zh": "进口申报受理", "status": "done", "at": "2026-11-11T16:45:00+09:00"},
+      {"key": "bonded_out", "label_ko": "반출신고", "label_zh": "监管仓出库申报", "status": "done", "at": "2026-11-12T09:30:00+09:00"}
+    ],
+    "hold": null
+  }
+]

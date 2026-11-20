@@ -1,0 +1,95 @@
+[
+  {
+    "hbl": "FWQD2611043",
+    "customer_id": "C-KR-0412",
+    "direction": "import",
+    "mode": "express_ferry",
+    "origin": {"code": "CNTAO", "name_zh": "青岛", "name_ko": "칭다오"},
+    "destination": {"code": "KRINC", "name_zh": "仁川", "name_ko": "인천"},
+    "goods": "의류 3점",
+    "packages": 1,
+    "package_unit": "parcel",
+    "gross_weight_kg": 1.6,
+    "volume_cbm": 0.01,
+    "declared_value_usd": 120,
+    "status": "customs_hold",
+    "etd": "2026-11-15T18:30:00+09:00",
+    "eta": "2026-11-16T08:00:00+09:00",
+    "warehouse_job": null,
+    "events": [
+      {"key": "received", "label_ko": "칭다오 집하센터 입고", "label_zh": "青岛集货仓已收货", "at": "2026-11-14T15:40:00+09:00"},
+      {"key": "departed", "label_ko": "칭다오항 출항 (인천행 카페리)", "label_zh": "青岛港离港（发往仁川的轮渡）", "at": "2026-11-15T18:30:00+09:00"},
+      {"key": "arrived", "label_ko": "인천항 도착", "label_zh": "抵达仁川港", "at": "2026-11-16T08:00:00+09:00"}
+    ]
+  },
+  {
+    "hbl": "FWQD2611150",
+    "customer_id": "C-CN-3150",
+    "direction": "import",
+    "mode": "express_ferry",
+    "origin": {"code": "CNTAO", "name_zh": "青岛", "name_ko": "칭다오"},
+    "destination": {"code": "KRINC", "name_zh": "仁川", "name_ko": "인천"},
+    "goods": "保温杯 2 个",
+    "packages": 1,
+    "package_unit": "parcel",
+    "gross_weight_kg": 1.2,
+    "volume_cbm": 0.01,
+    "declared_value_usd": 46,
+    "status": "customs_inspection",
+    "etd": "2026-11-15T18:30:00+09:00",
+    "eta": "2026-11-16T08:00:00+09:00",
+    "warehouse_job": null,
+    "events": [
+      {"key": "received", "label_ko": "칭다오 집하센터 입고", "label_zh": "青岛集货仓已收货", "at": "2026-11-14T11:20:00+09:00"},
+      {"key": "departed", "label_ko": "칭다오항 출항 (인천행 카페리)", "label_zh": "青岛港离港（发往仁川的轮渡）", "at": "2026-11-15T18:30:00+09:00"},
+      {"key": "arrived", "label_ko": "인천항 도착", "label_zh": "抵达仁川港", "at": "2026-11-16T08:00:00+09:00"}
+    ]
+  },
+  {
+    "hbl": "FWICN2611088",
+    "customer_id": "C-KR-1088",
+    "direction": "export",
+    "mode": "ferry_lcl",
+    "origin": {"code": "KRINC", "name_zh": "仁川", "name_ko": "인천"},
+    "destination": {"code": "CNTAO", "name_zh": "青岛", "name_ko": "칭다오"},
+    "goods": "化妆品（护肤品）",
+    "packages": 48,
+    "package_unit": "carton",
+    "gross_weight_kg": 680,
+    "volume_cbm": 3.2,
+    "declared_value_usd": 21500,
+    "status": "in_transit",
+    "etd": "2026-11-18T17:00:00+09:00",
+    "eta": "2026-11-19T10:00:00+09:00",
+    "warehouse_job": null,
+    "events": [
+      {"key": "received", "label_ko": "인천 물류센터 입고", "label_zh": "仁川 物流中心已收货", "at": "2026-11-13T15:30:00+09:00"},
+      {"key": "export_cleared", "label_ko": "수출신고 수리", "label_zh": "出口申报已受理", "at": "2026-11-17T14:10:00+09:00"},
+      {"key": "departed", "label_ko": "인천항 출항 (칭다오행 카페리)", "label_zh": "仁川港离港（发往青岛的轮渡）", "at": "2026-11-18T17:00:00+09:00"}
+    ]
+  },
+  {
+    "hbl": "FWQD2611127",
+    "customer_id": "C-CN-2207",
+    "direction": "import",
+    "mode": "ferry_lcl",
+    "origin": {"code": "CNTAO", "name_zh": "青岛", "name_ko": "칭다오"},
+    "destination": {"code": "KRINC", "name_zh": "仁川", "name_ko": "인천"},
+    "goods": "家居收纳用品",
+    "packages": 120,
+    "package_unit": "carton",
+    "gross_weight_kg": 1260,
+    "volume_cbm": 8.4,
+    "declared_value_usd": 5400,
+    "status": "at_warehouse",
+    "etd": "2026-11-09T18:30:00+09:00",
+    "eta": "2026-11-10T08:00:00+09:00",
+    "warehouse_job": "WJ-2611-031",
+    "events": [
+      {"key": "received", "label_ko": "칭다오 CFS 입고", "label_zh": "青岛 CFS 已收货", "at": "2026-11-07T14:00:00+09:00"},
+      {"key": "departed", "label_ko": "칭다오항 출항 (인천행 카페리)", "label_zh": "青岛港离港（发往仁川的轮渡）", "at": "2026-11-09T18:30:00+09:00"},
+      {"key": "arrived", "label_ko": "인천항 도착", "label_zh": "抵达仁川港", "at": "2026-11-10T08:00:00+09:00"},
+      {"key": "transferred_to_warehouse", "label_ko": "보세창고 반출 후 인천 물류센터로 이동", "label_zh": "出监管仓，转入仁川 物流中心", "at": "2026-11-12T11:10:00+09:00"}
+    ]
+  }
+]

@@ -1,0 +1,24 @@
+[
+  {
+    "id": "T-001040",
+    "customer_id": "C-KR-1088",
+    "channel": "email",
+    "subject": "FWICN2611088 화물 위치 문의",
+    "status": "ai_replied",
+    "messages": [
+      {"role": "customer", "text": "안녕하세요. FWICN2611088 화물이 지금 어디에 있나요?"},
+      {"role": "agent", "text": "조회 결과 화물은 인천항에서 출항하여 칭다오로 운송 중입니다."}
+    ]
+  },
+  {
+    "id": "T-001041",
+    "customer_id": "C-CN-3150",
+    "channel": "wechat",
+    "subject": "包裹在海关几天了，想查一下原因",
+    "status": "ai_replied",
+    "messages": [
+      {"role": "customer", "text": "我的包裹 FWQD2611150 在海关好几天了，是什么情况？"},
+      {"role": "agent", "text": "查询显示，包裹被海关抽中查验，正在进行实物检查。目前无需您操作，请等待查验结果。"}
+    ]
+  }
+]

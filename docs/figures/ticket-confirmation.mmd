@@ -1,0 +1,23 @@
+sequenceDiagram
+    actor C as 客户
+    participant H as 工单 Harness
+    participant M as DeepSeek API
+    participant T as 工具与业务数据
+    actor S as 员工
+
+    C->>H: 询问提单的清关状态
+    H->>M: 提供会话上下文和工具定义
+    M->>H: 请求查询
+    H->>T: 校验客户归属并读取状态
+    T-->>H: 返回状态或知识库章节
+    H->>M: 回填工具结果
+    M-->>H: 生成答复
+    H-->>C: 启用查询类自动回复时发送答复
+    C->>H: 提交更正资料
+    H->>M: 请求下一步处理
+    M->>H: 请求创建更正草稿
+    H->>T: 保存待确认的变更
+    H-->>S: 显示草稿、工具记录和客户背景
+    S->>H: 检查或编辑后确认
+    H->>T: 提交变更并更新工单
+    H-->>C: 发布已确认的回复

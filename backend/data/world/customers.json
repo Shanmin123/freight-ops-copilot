@@ -1,0 +1,42 @@
+[
+  {
+    "id": "C-KR-0412",
+    "name": "김지우",
+    "type": "individual",
+    "language": "ko",
+    "settlement": "prepaid",
+    "tier": null,
+    "credit_limit_usd": null,
+    "credit_used_usd": null
+  },
+  {
+    "id": "C-CN-2207",
+    "name": "云帆优品",
+    "type": "seller",
+    "language": "zh",
+    "settlement": "monthly",
+    "tier": "A",
+    "credit_limit_usd": 20000,
+    "credit_used_usd": 8200
+  },
+  {
+    "id": "C-KR-1088",
+    "name": "한빛코스메틱",
+    "type": "seller",
+    "language": "ko",
+    "settlement": "monthly",
+    "tier": "B",
+    "credit_limit_usd": 15000,
+    "credit_used_usd": 3100
+  },
+  {
+    "id": "C-CN-3150",
+    "name": "林晓",
+    "type": "individual",
+    "language": "zh",
+    "settlement": "prepaid",
+    "tier": null,
+    "credit_limit_usd": null,
+    "credit_used_usd": null
+  }
+]

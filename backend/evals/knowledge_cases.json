@@ -1,0 +1,17 @@
+[
+  {"id":"zh-correction","language":"zh","question":"个人通关号码和收件人姓名对不上，怎么更正？","expected":"pccc-correction/correction","terms":["更正","修改","更改","重新申报"]},
+  {"id":"ko-correction","language":"ko","question":"수하인 이름이 개인통관고유부호와 다를 때 어떻게 정정하나요?","expected":"pccc-correction/correction","terms":["정정","수정","재신고"]},
+  {"id":"zh-issuance","language":"zh","question":"韩国个人通关号码去哪里申请？","expected":"pccc/issuance","terms":["申请","签发","查询","UNI-PASS"]},
+  {"id":"ko-issuance","language":"ko","question":"개인통관고유부호를 처음 발급받으려면 어디로 가나요?","expected":"pccc/issuance","terms":["발급","신청","UNI-PASS"]},
+  {"id":"zh-list-clearance","language":"zh","question":"什么是韩国的清单通关？","expected":"list-clearance/eligibility","terms":["清单","申报"]},
+  {"id":"ko-clearance-exclusions","language":"ko","question":"건강기능식품도 목록통관을 할 수 있나요?","expected":"list-clearance/exclusions","terms":["건강기능식품","제외"]},
+  {"id":"zh-inspection","language":"zh","question":"海关抽中查验是什么意思？","expected":"customs-inspection/meaning","terms":["查验","核对","检查"]},
+  {"id":"ko-duties","language":"ko","question":"예상 관부가세를 어디에서 확인할 수 있나요?","expected":"duties-and-taxes/estimate","terms":["세액","관세","예상","조회"]},
+  {"id":"mixed-ko-term","language":"zh","question":"韩国的 목록통관 有哪些不适用的商品？","expected":"list-clearance/exclusions","terms":["排除","不适用","除外","限制"]},
+  {"id":"mixed-latin-term","language":"ko","question":"PCCC는 어디에서 발급받나요?","expected":"pccc/issuance","terms":["발급","신청","UNI-PASS"]},
+  {"id":"ko-import-docs","language":"ko","question":"수입신고 서류에는 상업송장과 포장명세서가 필요한가요?","expected":"import-documents/required","terms":["상업송장","포장명세서","서류"]},
+  {"id":"zh-warehouse-repack","language":"zh","question":"在这个演示里，发现外箱破损后能申请重新包装吗？","expected":"warehouse-workflow/repack","terms":["重新包装","换箱","重包","确认"]},
+  {"id":"zh-uncovered-customs","language":"zh","question":"知识库里有仁川海关动物检疫值班表吗？","expected":null,"terms":["知识库里没有找到"]},
+  {"id":"zh-out-of-scope","language":"zh","question":"知识库里有没有东京地铁一日票的办理办法？","expected":null,"terms":["知识库里没有找到"]},
+  {"id":"ko-out-of-scope","language":"ko","question":"지식베이스에 파리 숙소 예약 취소 규정이 있나요?","expected":null,"terms":["찾지 못했습니다"]}
+]

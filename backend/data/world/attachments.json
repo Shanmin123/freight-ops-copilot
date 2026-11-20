@@ -1,0 +1,35 @@
+[
+  {
+    "attachment_id": "ATT-9001",
+    "customer_id": "C-CN-2207",
+    "type": "photo",
+    "job_id": "WJ-2611-031",
+    "hbl": "FWQD2611127",
+    "carton": "C-014",
+    "taken_at": "2026-11-13T10:42:00+09:00",
+    "description_zh": "C-014 纸箱一角压塌。",
+    "description_ko": "C-014 박스 한쪽 모서리가 눌려 찌그러졌습니다."
+  },
+  {
+    "attachment_id": "ATT-9002",
+    "customer_id": "C-CN-2207",
+    "type": "photo",
+    "job_id": "WJ-2611-031",
+    "hbl": "FWQD2611127",
+    "carton": "C-027",
+    "taken_at": "2026-11-13T10:47:00+09:00",
+    "description_zh": "C-027 纸箱侧面破洞，箱内 2 个收纳盒有裂纹。",
+    "description_ko": "C-027 박스 옆면에 구멍이 났고, 안에 든 수납함 2개에 금이 갔습니다."
+  },
+  {
+    "attachment_id": "ATT-9003",
+    "customer_id": "C-CN-2207",
+    "type": "photo",
+    "job_id": "WJ-2611-031",
+    "hbl": "FWQD2611127",
+    "carton": "C-031",
+    "taken_at": "2026-11-13T10:53:00+09:00",
+    "description_zh": "C-031 纸箱受潮变形。",
+    "description_ko": "C-031 박스가 습기를 먹어 변형되었습니다."
+  }
+]

@@ -1,0 +1,134 @@
+{
+  "id": "ForwarderMailP6X",
+  "name": "货代客服 · 模拟邮件",
+  "active": false,
+  "versionId": "cd0c2d8b-c671-4d91-ab2f-87d9023f5591",
+  "settings": { "executionOrder": "v1", "timezone": "Asia/Seoul" },
+  "nodes": [
+    {
+      "id": "dbd101d2-9f60-4fb3-9ebd-16f12f81ff8a",
+      "name": "模拟来信",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [0, 0],
+      "webhookId": "fc4d9bc8-3089-4cdb-89f5-30da42374db4",
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "forwarder-mail",
+        "responseMode": "responseNode",
+        "options": {}
+      }
+    },
+    {
+      "id": "05622c4b-2d1c-4e4a-9a1e-0c733bb7b265",
+      "name": "整理邮件",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [220, 0],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {"id": "1c354fce-603d-4070-a56f-18d1d62906c2", "name": "message_id", "type": "string", "value": "={{ String($json.body.message_id || ('n8n-' + $execution.id)).trim() }}"},
+            {"id": "e04d96d4-e25b-4b15-b80c-67fc70fddd16", "name": "customer_id", "type": "string", "value": "={{ String($json.body.customer_id || '').trim() }}"},
+            {"id": "a5cfb6eb-5f80-47c5-91dd-22d512e83ca4", "name": "sender", "type": "string", "value": "={{ String($json.body.sender || '').trim() }}"},
+            {"id": "cb68d16f-af24-428b-a306-c4bb0acb34b3", "name": "subject", "type": "string", "value": "={{ String($json.body.subject || '').trim() }}"},
+            {"id": "cdbd0ae6-8e7c-4f9b-89fe-f469ce20b773", "name": "text", "type": "string", "value": "={{ String($json.body.text || '').trim() }}"},
+            {"id": "815974ac-ff13-4601-a8c6-15f12df81193", "name": "resume_url", "type": "string", "value": "={{ $execution.resumeUrl }}"}
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "4b5b3f2b-872b-47de-90d8-4c0ee72f6d52",
+      "name": "登记来信并生成草稿",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [450, 0],
+      "parameters": {
+        "method": "POST",
+        "url": "http://127.0.0.1:8000/api/automation/n8n/intake",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json }}",
+        "options": {"timeout": 120000}
+      }
+    },
+    {
+      "id": "268c16c6-4dfe-49d8-b347-871d494fec6f",
+      "name": "回执",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [680, 0],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { id: $json.id, ticket_id: $json.ticket_id } }}",
+        "options": { "responseCode": 202 }
+      }
+    },
+    {
+      "id": "20bd66d1-b8f9-4788-8fdc-5926e302a477",
+      "name": "仅等待本次来信",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [910, 0],
+      "parameters": {
+        "conditions": {
+          "options": {"caseSensitive": true, "leftValue": "", "typeValidation": "strict", "version": 2},
+          "conditions": [
+            {
+              "id": "c64632ae-c2af-401a-bc0e-d9cd48936a1f",
+              "leftValue": "={{ $('登记来信并生成草稿').first().json.wait }}",
+              "rightValue": "",
+              "operator": {"type": "boolean", "operation": "true", "singleValue": true}
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "2b9bd995-cf3e-4dda-9e03-112c80266a3d",
+      "name": "等待员工确认",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [1140, 0],
+      "webhookId": "fe046b02-b593-4c33-80c0-1113744b4171",
+      "parameters": {
+        "resume": "webhook",
+        "httpMethod": "POST",
+        "responseMode": "onReceived",
+        "options": {}
+      }
+    },
+    {
+      "id": "508d696d-1481-4af8-bf10-b1a73c6935dc",
+      "name": "写入模拟回信和客户记录",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1370, 0],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 1000,
+      "parameters": {
+        "method": "POST",
+        "url": "http://127.0.0.1:8000/api/automation/n8n/complete",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { mail_id: $('登记来信并生成草稿').first().json.id, delivery_token: $('登记来信并生成草稿').first().json.delivery_token } }}",
+        "options": {"timeout": 5000}
+      }
+    }
+  ],
+  "connections": {
+    "模拟来信": {"main": [[{"node": "整理邮件", "type": "main", "index": 0}]]},
+    "整理邮件": {"main": [[{"node": "登记来信并生成草稿", "type": "main", "index": 0}]]},
+    "登记来信并生成草稿": {"main": [[{"node": "回执", "type": "main", "index": 0}]]},
+    "回执": {"main": [[{"node": "仅等待本次来信", "type": "main", "index": 0}]]},
+    "仅等待本次来信": {"main": [[{"node": "等待员工确认", "type": "main", "index": 0}]]},
+    "等待员工确认": {"main": [[{"node": "写入模拟回信和客户记录", "type": "main", "index": 0}]]}
+  },
+  "pinData": {},
+  "tags": []
+}

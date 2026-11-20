@@ -1,0 +1,33 @@
+.score-page { width: min(1180px, calc(100% - 2rem)); margin: 2rem auto 4rem; }
+.score-heading { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .75rem; margin-bottom: 1rem; }
+.score-heading h1 { font-size: clamp(1.55rem, 4vw, 2rem); font-weight: 800; }
+.score-heading h2 { font-size: 1.18rem; font-weight: 750; }
+.score-heading label, .score-heading [role=status] { color: #526371; font-size: .88rem; }
+.score-settings, .score-replay { background: white; border: 1px solid #dce4e1; padding: 1.2rem; border-radius: 10px; }
+.score-settings legend { margin-bottom: .65rem; font-weight: 750; }
+.score-model { display: inline-flex; gap: .4rem; align-items: center; padding: .45rem .65rem; margin: 0 .5rem .55rem 0; border: 1px solid #dce4e1; border-radius: 6px; }
+.score-model span { color: #667683; font-size: .73rem; }
+.score-options { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; margin: .6rem 0; }
+.score-options input[type=number] { width: 4.7rem; }
+.score-page select, .score-page input[type=number] { padding: .4rem; background: white; border: 1px solid #c9d5d2; border-radius: 5px; }
+.score-page input[type=checkbox] { accent-color: #007d70; }
+.score-page button { background: #086157; color: white; padding: .38rem .7rem; border-radius: 5px; font-weight: 650; }
+.score-page button:disabled { opacity: .5; }
+.score-settings p { color: #546574; font-size: .82rem; }
+.score-settings a { margin-inline-start: .35rem; color: #00685b; text-decoration: underline; }
+.score-results, .score-replay { margin-top: 1.5rem; }
+.score-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr)); gap: .75rem; margin-bottom: 1.4rem; }
+.score-cards article { background: #fff; border: 1px solid #dce4e1; border-radius: 9px; padding: 1rem; }
+.score-cards h3 { font-weight: 750; }
+.score-cards strong { display: block; color: #086157; font-size: 1.9rem; font-variant-numeric: tabular-nums; margin: .25rem 0; }
+.score-cards small { color: #62717c; font-size: .82rem; }
+.score-cards dl { display: grid; grid-template-columns: 1fr auto; gap: .25rem; font-size: .81rem; }
+.score-cards dt { color: #546574; }
+.score-cards dd { text-align: right; }
+.score-table-wrap { overflow-x: auto; background: white; border: 1px solid #dce4e1; border-radius: 9px; }
+.score-table-wrap table { width: 100%; min-width: 560px; text-align: left; font-size: .87rem; }
+.score-table-wrap th, .score-table-wrap td { padding: .55rem .7rem; border-bottom: 1px solid #edf0ef; }
+.score-table-wrap th { background: #eaf3ef; }
+.score-replay pre { white-space: pre-wrap; overflow-wrap: anywhere; background: #f5f7f6; padding: .65rem; margin: .7rem 0; }
+.score-replay ul { color: #933925; padding-left: 1.25rem; list-style: disc; }
+.score-error { margin-top: 1rem; color: #933925; }

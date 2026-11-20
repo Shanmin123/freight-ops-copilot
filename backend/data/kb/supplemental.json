@@ -1,0 +1,32 @@
+[
+  {
+    "id": "fba-box-labels",
+    "reviewed_on": "2026-11-20",
+    "title": {"zh": "Amazon FBA 入仓箱标", "ko": "Amazon FBA 입고 상자 라벨"},
+    "sections": [{
+      "id": "box-id",
+      "title": {"zh": "每箱的箱号标签", "ko": "상자별 ID 라벨"},
+      "text": {
+        "zh": "在美国站点的 Send to Amazon 流程中，确认发货后生成每箱唯一的 FBA Box ID 标签。把对应标签贴在每个箱子的外侧，保证拆托后仍可识别。托盘标签与各箱的箱标用途不同。",
+        "ko": "미국 마켓플레이스의 Send to Amazon에서 배송을 확정한 뒤 상자마다 고유한 FBA Box ID 라벨을 인쇄합니다. 팔레트를 해체한 후에도 보이도록 각 상자 바깥쪽에 부착합니다. 팔레트 라벨과 상자 라벨은 용도가 다릅니다."
+      },
+      "aliases": ["FBA", "FBA 箱标", "亚马逊箱标", "FBA Box ID", "Amazon 入仓箱标", "FBA 상자 라벨", "박스 라벨"],
+      "source": {"label": "Amazon Seller Central · Send to Amazon 箱标", "url": "https://sellercentral.amazon.com/gp/help/external/GCUH6KKZA6PRA4E7?mons_sel_locale=en_US"}
+    }]
+  },
+  {
+    "id": "incoterms",
+    "reviewed_on": "2026-11-20",
+    "title": {"zh": "贸易术语与运输方式", "ko": "인코텀즈와 운송 방식"},
+    "sections": [{
+      "id": "transport-modes",
+      "title": {"zh": "海运与通用术语的区别", "ko": "해상 운송 규칙과 복합 운송 규칙"},
+      "text": {
+        "zh": "ICC 的 Incoterms® 2020 把 FAS、FOB、CFR 和 CIF 归入海运及内河运输规则。EXW、FCA、CPT、CIP、DAP、DPU 和 DDP 可用于任意运输方式。贸易术语分配交货义务、费用和风险，实际报价仍应核对约定地点和服务范围。",
+        "ko": "ICC 인코텀즈® 2020에서 FAS, FOB, CFR, CIF는 해상 및 내수로 운송 규칙입니다. EXW, FCA, CPT, CIP, DAP, DPU, DDP는 모든 운송 방식에 적용할 수 있습니다. 규칙은 인도 의무와 비용, 위험을 배분하며 실제 운임 견적은 지정 장소와 서비스 범위를 확인해야 합니다."
+      },
+      "aliases": ["Incoterms", "贸易条款", "贸易术语", "海运术语", "空运FOB", "FOB和FCA", "인코텀즈", "해상 운송 규칙"],
+      "source": {"label": "国际商会 · Incoterms® 2020 问答", "url": "https://library.iccwbo.org/clp/clp-incoterms-qa-2020.htm?AGENT=ICC_HQ"}
+    }]
+  }
+]
