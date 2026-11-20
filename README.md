@@ -1,58 +1,105 @@
-# Freight Ops Copilot
+<h1 align="center">Freight Ops Copilot</h1>
 
-**中韩跨境物流 AI 工作台** · 从客户询价与清关查询，到人工审批与业务记录。
+<p align="center"><strong>中韩跨境物流 AI 工作台</strong></p>
 
-在同一个工作台里，客服可以核对提单状态、打开知识库出处、审查报价草稿，并查看 AI 调用了哪些工具。清关资料更正、报价折扣和邮件回复都有对应的人工确认环节。
+<p align="center">处理客户询价、查清关进度、核对单据，遇到需要确认的业务动作就交给员工。</p>
 
-[作品说明与 16 张截图](docs/作品说明.md) · [系统架构大图](docs/figures/harness-architecture.svg) · [演示与复测脚本](docs/demo.md)
+<p align="center">
+  <a href="#一笔询价怎样变成正式报价">看报价演示</a>
+  · <a href="#从四张截图看工作台">看功能截图</a>
+  · <a href="#在本机运行">运行项目</a>
+  · <a href="docs/作品说明.md">阅读作品说明</a>
+</p>
 
-## 从客户询价到正式报价
+---
 
-客户询问青岛至仁川整柜运费，指定 `2×40HQ`、FOB，并申请 15% 折扣。DeepSeek 查询业务费率，报价模块算出 **USD 1,789.25**。员工可以检查费用明细、船期和工具结果，确认后转经理审批。审批通过即可下载正式 PDF。
+## 一笔询价怎样变成正式报价
 
-[![报价工单全页，含客户询价、报价明细、员工确认按钮、工具时间线和质检结果](docs/assets/demo/09-quote-chat-draft.png)](docs/assets/demo/09-quote-chat-draft.png)
+> 青岛到仁川，家居用品，两个 40HQ 柜，FOB。可以给 15% 折扣吗？
 
-## 能做什么
+| 客户发起询价 | AI 查费率与船期 | 员工核对草稿 | 经理审批 |
+| --- | --- | --- | --- |
+| 青岛 → 仁川，海运整柜 | 主运费 USD 2,080，文件费 USD 25 | 折后 **USD 1,789.25**，可修改或确认 | 批准后下载正式报价 PDF |
 
-| 场景 | 可体验的流程 |
-| --- | --- |
-| 中韩客服与清关 | 查询货物、仓库和清关状态。更正个人通关资料时，员工确认后提交业务变更。 |
-| 双语知识库 | 中韩文检索通过 BM25 和本地 E5 向量排序，回复可定位到原文章节。找不到足够资料时说明证据缺口。 |
-| 报价与审批 | 按海运整柜、拼箱、轮渡、空运的计费规则试算。低毛利或超权限折扣进入经理审批。 |
-| 单据核对 | 读取商业发票、装箱单和提单。PDF 文本和照片 OCR 的字段来源可追溯，并按差异生成处理草稿。 |
-| 邮件自动化 | n8n 接收测试来信并创建工单，等待员工确认后写入模拟发件箱和客户跟进记录，按 Message-ID 去重。 |
-| 模型评测 | 同一组案例比较 DeepSeek Flash、Flash 思考和 Pro 思考。成绩单记录评分、用量和逐例工具回放。 |
+<p align="center">
+  <a href="docs/assets/demo/09-quote-chat-draft.png">
+    <img src="docs/assets/demo/09-quote-chat-draft.png" width="760" alt="完整报价工作台，含收件箱、询价、报价草稿、员工确认按钮、工具时间线与质检">
+  </a>
+</p>
 
-## Agent Harness 如何工作
+<p align="center"><sub>点击查看完整原图。中间是员工待确认的草稿，右侧是报价状态、工具执行过程和自动质检。</sub></p>
+
+[查看经理审批](docs/assets/demo/10-quote-manager.png) · [查看正式报价和 PDF 入口](docs/assets/demo/11-quote-formal.png)
+
+## 从四张截图看工作台
+
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <strong>01 · 清关问题用韩语回答</strong><br>
+      客户询问通关号码怎样更正，回复附有韩文知识库出处。<br><br>
+      <a href="docs/assets/demo/01-korean-chat-cited.png"><img src="docs/assets/demo/01-korean-chat-cited.png" width="320" alt="韩语客服回复带知识库引用"></a><br>
+      <a href="docs/assets/demo/03-knowledge-source.png">查看原文章节</a>
+    </td>
+    <td width="50%" valign="top">
+      <strong>02 · 三份单据放在一起核对</strong><br>
+      对照商业发票、装箱单和提单，查看五项差异及每个字段的提取来源。<br><br>
+      <a href="docs/assets/demo/07-document-photo-ocr.png"><img src="docs/assets/demo/07-document-photo-ocr.png" width="440" alt="照片 OCR 与 PDF 字段核对结果"></a><br>
+      <a href="docs/assets/demo/08-document-drafts.png">查看合规提示和更正草稿</a>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <strong>03 · 测试邮件等员工确认</strong><br>
+      n8n 收到测试来信后创建工单，员工确认才生成模拟回信和客户记录。<br><br>
+      <a href="docs/assets/demo/15-mail-completed.png"><img src="docs/assets/demo/15-mail-completed.png" width="440" alt="n8n 流程完成后的模拟发件箱和客户记录"></a><br>
+      <a href="docs/assets/demo/14-mail-pending.png">查看确认前的状态</a>
+    </td>
+    <td width="50%" valign="top">
+      <strong>04 · 同一案例比较三个模型配置</strong><br>
+      查看 Flash、Flash 思考和 Pro 思考的通过率、用量，再打开单例回放。<br><br>
+      <a href="docs/assets/demo/12-scorecard-batch.png"><img src="docs/assets/demo/12-scorecard-batch.png" width="440" alt="三个 DeepSeek 配置在同一组案例上的成绩单"></a><br>
+      <a href="docs/assets/demo/13-scorecard-replay.png">查看工具回放</a>
+    </td>
+  </tr>
+</table>
+
+还支持中文货物查询、仓库协作、改派、理赔，以及整柜、拼箱、轮渡、空运报价。[浏览全部 16 张截图与 14 个测试样例](docs/作品说明.md)
+
+## 一条工单在后台怎么走
 
 ```mermaid
 flowchart LR
-    A["客户消息 / 测试邮件"] --> B["FastAPI 工单与上下文"]
+    A["客户消息"] --> B["FastAPI 工单"]
     B --> C["AgentRunner"]
-    C <-->|调用与观察| D["DeepSeek API"]
-    C <-->|请求与结果| E["工具注册表<br/>物流、报价、双语 RAG"]
-    E -->|待确认的变更| F["员工确认 / 经理审批"]
-    F --> G[("SQLite 业务状态与执行记录")]
-    C -->|步骤与结果| G
+    C <-->|请求与工具调用| D["DeepSeek API"]
+    C <-->|参数与结果| E["工具注册表<br/>物流 · 报价 · RAG"]
+    E -->|变更草稿| F["员工确认 / 经理审批"]
+    F --> G[("SQLite 业务状态")]
+    C -.->|执行记录| G
+    classDef service fill:#e9f5f2,stroke:#488b79,color:#173a33
+    classDef approve fill:#fff0d8,stroke:#ad7432,color:#623d10
+    class B,C,E,G service
+    class F approve
 ```
 
-- **业务事实有出处。** 工具校验参数和归属，读取结构化业务数据。RAG 答复可以回到具体原文章节。
-- **写入有确认。** 查询类可自动回复。敏感变更先保存为草稿，员工确认后生效。
-- **每次执行可回放。** 工作台通过 SSE 更新工单和工具时间线。评测用独立数据重跑同一执行链路，逐例核对回复、工具和状态。
+- **查到的事实有出处。** 工具先校验客户与货物归属。双语 RAG 结合关键词和本地 E5 向量，可以回到知识库原文章节。
+- **业务变更有确认。** 查询类可自动回复，资料更正等操作先保存为草稿。超权限折扣由经理审批。
+- **AI 做过什么可以回看。** 工作台实时显示工具调用、参数和结果。评测用独立数据跑同一套流程，保留单例回放。
 
-更多模块、状态与事件流见 [完整 Harness 架构](docs/作品说明.md#系统-harness-架构)。
+[完整系统架构](docs/figures/harness-architecture.svg) · [工单处理时序](docs/figures/ticket-confirmation.svg)
 
-## 验收结果
+## 实测结果
 
-| 检查 | 结果 |
+| 验收项 | 结果 |
 | --- | --- |
-| 后端与前端 | 294 项后端测试、14 项前端测试通过，前端生产构建通过 |
 | 全业务离线回归 | 80/80，使用确定性测试依赖 |
-| DeepSeek API 抽测 | Flash、Flash 思考和 Pro 思考各 3/3，共 9 次 |
-| 知识库 | 混合检索 15/15，另有 5/5 真实 DeepSeek 查询抽测 |
-| n8n 流程 | 已验证 Webhook、Wait、人工确认、回写及重复来信去重 |
+| DeepSeek API 抽测 | 3 种配置各 3/3，共 9 次。样例覆盖清关、知识库和货物跟踪 |
+| 知识库 | 混合检索 15/15，另有 5/5 真实 API 查询抽测 |
+| n8n 流程 | 验证了收件、等待、人工确认、回写和重复来信去重 |
+| 后端与前端 | 后端 294 项、前端 14 项测试通过，前端生产构建通过 |
 
-[测试样例与验收明细](docs/作品说明.md#测试样例) · [知识库评测命令](backend/evals/README.md)
+[复现演示与评测](docs/demo.md) · [知识库评测命令](backend/evals/README.md)
 
 ## 在本机运行
 
