@@ -1,72 +1,101 @@
-# 货代 AI 客服中心
+# Freight Ops Copilot
 
-货代客服和运营工作台，覆盖中韩文会话、清关及仓库协作、运费报价和审批、知识库、单据核对、模型评测与邮件自动化。工作台实时显示工具调用和回复结果。查询类回复默认自动发送，业务写入随员工确认生效。
+**中韩跨境物流 AI 工作台** · 从客户询价与清关查询，到人工审批与业务记录。
 
-**报价演示**　客户发起询价，AI 查运费并生成报价草稿，员工确认后按规则提交经理审批。审批通过即可下载正式 PDF。
+在同一个工作台里，客服可以核对提单状态、打开知识库出处、审查报价草稿，并查看 AI 调用了哪些工具。清关资料更正、报价折扣和邮件回复都有对应的人工确认环节。
 
-![客服工作台全页，展示客户询价、完整报价草稿、员工确认和工具执行](docs/assets/demo/09-quote-chat-draft.png)
+[作品说明与 16 张截图](docs/作品说明.md) · [系统架构大图](docs/figures/harness-architecture.svg) · [演示与复测脚本](docs/demo.md)
 
-[作品说明与演示截图](docs/作品说明.md) · [系统 Harness 架构图](docs/figures/harness-architecture.svg) · [可复现演示脚本](docs/demo.md)
+## 从客户询价到正式报价
 
-## 启动
+客户询问青岛至仁川整柜运费，指定 `2×40HQ`、FOB，并申请 15% 折扣。DeepSeek 查询业务费率，报价模块算出 **USD 1,789.25**。员工可以检查费用明细、船期和工具结果，确认后转经理审批。审批通过即可下载正式 PDF。
 
-需要 Python 3.10 或以上、Node.js 22.12 或以上的 22.x 版本。在仓库根目录运行以下 PowerShell 命令。
+[![报价工单全页，含客户询价、报价明细、员工确认按钮、工具时间线和质检结果](docs/assets/demo/09-quote-chat-draft.png)](docs/assets/demo/09-quote-chat-draft.png)
+
+## 能做什么
+
+| 场景 | 可体验的流程 |
+| --- | --- |
+| 中韩客服与清关 | 查询货物、仓库和清关状态。更正个人通关资料时，员工确认后提交业务变更。 |
+| 双语知识库 | 中韩文检索通过 BM25 和本地 E5 向量排序，回复可定位到原文章节。找不到足够资料时说明证据缺口。 |
+| 报价与审批 | 按海运整柜、拼箱、轮渡、空运的计费规则试算。低毛利或超权限折扣进入经理审批。 |
+| 单据核对 | 读取商业发票、装箱单和提单。PDF 文本和照片 OCR 的字段来源可追溯，并按差异生成处理草稿。 |
+| 邮件自动化 | n8n 接收测试来信并创建工单，等待员工确认后写入模拟发件箱和客户跟进记录，按 Message-ID 去重。 |
+| 模型评测 | 同一组案例比较 DeepSeek Flash、Flash 思考和 Pro 思考。成绩单记录评分、用量和逐例工具回放。 |
+
+## Agent Harness 如何工作
+
+```mermaid
+flowchart LR
+    A["客户消息 / 测试邮件"] --> B["FastAPI 工单与上下文"]
+    B --> C["AgentRunner"]
+    C <-->|调用与观察| D["DeepSeek API"]
+    C <-->|请求与结果| E["工具注册表<br/>物流、报价、双语 RAG"]
+    E -->|待确认的变更| F["员工确认 / 经理审批"]
+    F --> G[("SQLite 业务状态与执行记录")]
+    C -->|步骤与结果| G
+```
+
+- **业务事实有出处。** 工具校验参数和归属，读取结构化业务数据。RAG 答复可以回到具体原文章节。
+- **写入有确认。** 查询类可自动回复。敏感变更先保存为草稿，员工确认后生效。
+- **每次执行可回放。** 工作台通过 SSE 更新工单和工具时间线。评测用独立数据重跑同一执行链路，逐例核对回复、工具和状态。
+
+更多模块、状态与事件流见 [完整 Harness 架构](docs/作品说明.md#系统-harness-架构)。
+
+## 验收结果
+
+| 检查 | 结果 |
+| --- | --- |
+| 后端与前端 | 294 项后端测试、14 项前端测试通过，前端生产构建通过 |
+| 全业务离线回归 | 80/80，使用确定性测试依赖 |
+| DeepSeek API 抽测 | Flash、Flash 思考和 Pro 思考各 3/3，共 9 次 |
+| 知识库 | 混合检索 15/15，另有 5/5 真实 DeepSeek 查询抽测 |
+| n8n 流程 | 已验证 Webhook、Wait、人工确认、回写及重复来信去重 |
+
+[测试样例与验收明细](docs/作品说明.md#测试样例) · [知识库评测命令](backend/evals/README.md)
+
+## 在本机运行
+
+需要 Python 3.10 或以上、Node.js 22.x（至少 22.12）。在仓库根目录复制配置模板。
+
+```powershell
+Copy-Item .env.example .env
+```
+
+在 `.env` 中填入自己的 `DEEPSEEK_API_KEY`，再启动服务。
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\scripts\start.ps1
 ```
 
-打开 [员工工作台](http://127.0.0.1:8000/workbench)、[客户聊天窗口](http://127.0.0.1:8000/chat) 或 [知识库](http://127.0.0.1:8000/kb)。按 Ctrl+C 停止服务。可加 `-Port 8010` 更换端口，或加 `-Rebuild` 安装锁定的前端依赖并重新构建。
+打开 [员工工作台](http://127.0.0.1:8000/workbench) 或 [客户聊天窗口](http://127.0.0.1:8000/chat)。第一次启动会安装依赖并构建前端。可加 `-Port 8010` 更换端口。
 
-## DeepSeek API
+想快速体验，可在客户窗口选择 **김지우 / KakaoTalk**，输入 `FWQD2611043 통관이 왜 보류됐나요?`，再追问 `개인통관고유부호를 정정하는 방법은 무엇인가요?`。收到回复后，打开对应工单，查看清关查询、知识库检索及引用出处。
 
-启动前，把仓库根目录的 `.env.example` 复制为 `.env`，在本机填入自己的 `DEEPSEEK_API_KEY`。客服回复和成绩单都使用 DeepSeek API，工作台顶部会显示当前模型。密钥由后端读取，`.env` 已排除在版本管理之外。启动时缺少密钥会提示补齐配置。
+<details>
+<summary>本地模型、PDF 字体、自动化与 Docker</summary>
 
-## 演示清关流程
-
-1. 在客户聊天窗口选择 **김지우** 和 **KakaoTalk**，发送 `FWQD2611043 반입신고에서 3일째 멈춰 있어요`。收到韩文回复后，在工作台打开对应工单，查看「查清关进度」。
-2. 在同一会话追问 `개인통관고유부호를 정정하는 방법은 무엇인가요?`。点开回复下方的出处，查看知识库对应小节及原始来源。工作台会显示「检索知识库」。
-3. 发送示例号码 `P230518447201`。客户先收到确认消息，工作台出现 AI 草稿以及标为「暂存 · 确认后生效」的工具步骤。
-4. 在工作台点「确认发送」。客户窗口收到正式回复，工作台显示通关号码已重新提交。此动作仅更新演示数据。
-5. 点「重置演示数据」，收件箱恢复为两条示例历史工单。
-
-## 知识库
-
-双语资料涵盖通关号码、清单通关、查验、税费、申报材料、仓库流程、FBA 入仓和贸易术语。检索结合 BM25 和本地多语言向量排序，向量模型缺少时自动使用关键词检索。答案附知识库小节，资料不足时会说明查不到。
-
-参见 [知识库评测](backend/evals/README.md)，可复跑中文、韩文、混合术语和无资料问题。
-
-## 业务演示
-
-- **报价和理赔**支持海运整柜、拼箱、轮渡和空运。可以从询价工单或报价页创建参考报价，员工确认后，低毛利或超权限折扣交给经理处理。通过审批后可下载正式 PDF。
-- **单据核对**可上传商业发票、装箱单和提单，样例支持直接生成 PDF 并核对。也可换用拍照版发票，使用本地 OCR 提取。比对结果可生成更正草稿和报关资料草稿。
-- **成绩单**支持生成 80 条案例、多模型并发对比、估算用量、查看失败回放。运行 DeepSeek 评测时使用自己的本机密钥。
-- **邮件自动化**支持模拟来信、员工确认、模拟发件箱和客户记录，另有可导入的 n8n 工作流。[工作流和启动方式](workflows/README.md)
-
-完整录屏顺序和验收命令见 [演示脚本](docs/demo.md)。
-
-## 本地模型与字体
-
-安装项目依赖后，可按需下载开源资产。下面的命令下载 Noto Sans SC/KR 和量化的多语言 E5 模型，约 163 MB，保存在本地 `backend/var`。
+安装依赖后，可下载量化多语言 E5 和 Noto Sans SC/KR 字体，约 163 MB。资产存放于本地 `backend/var`。
 
 ```powershell
 .\backend\.venv\Scripts\python.exe .\scripts\provision_assets.py --fonts --embeddings
 ```
 
-## Docker
+重启应用后启用混合检索及对应的 PDF 字体。启动 n8n 需要 Node.js 24，详见 [邮件工作流说明](workflows/README.md)。
+
+仓库提供 [Docker Compose 配置](compose.yaml)，已通过配置语法检查。配置好 `.env` 后，可用以下命令启动。
 
 ```sh
 docker compose up --build -d
-docker compose exec app python scripts/provision_assets.py --fonts --embeddings
-docker compose restart app
 docker compose --profile automation up -d n8n
 ```
 
-应用绑定本机 8000 端口，n8n 绑定本机 5678 端口。容器初次启动会导入并发布演示工作流。删除 Compose 数据卷会移除本地工单、运行记录和模型资产。
+容器运行验证范围见 [作品说明](docs/作品说明.md#验收记录与运行方式)。
 
-## 测试
+</details>
 
-首次启动安装依赖后，可在仓库根目录运行以下命令。
+<details>
+<summary>运行本地测试</summary>
 
 ```powershell
 Push-Location backend
@@ -76,6 +105,10 @@ npm --prefix frontend test
 npm --prefix frontend run build
 ```
 
-## 项目来源
+</details>
+
+## 技术栈与项目来源
+
+React、TypeScript、FastAPI、SQLite、SSE、DeepSeek、ONNX Runtime、RapidOCR、ReportLab、n8n。
 
 作者孙山珉。项目借鉴 Industrial Post-Training Training Release 的隔离写入和评测流水线设计，货代场景代码与演示数据由本项目独立维护。
